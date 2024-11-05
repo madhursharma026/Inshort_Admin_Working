@@ -119,6 +119,7 @@ export default function AddNews() {
               id="Priority"
               className="form-select"
               value={priority}
+              defaultValue={"low"}
               onChange={(e) => setPriority(e.target.value)}
               required
             >

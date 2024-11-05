@@ -58,13 +58,13 @@ const ViewArticles = () => {
 
   const UPDATE_ARTICLES_MUTATION = `
     mutation UpdateArticle($id: Int!, $updateArticleInput: UpdateArticleInput!) {
-  updateArticle(id: $id, updateArticleInput: $updateArticleInput) {
-    id
-    title
-    status
-    createdAt
-  }
-}
+      updateArticle(id: $id, updateArticleInput: $updateArticleInput) {
+        id
+        title
+        status
+        createdAt
+      }
+    }
   `;
 
   const handleToggleStatus = async (articleId, currentStatus) => {
@@ -132,6 +132,19 @@ const ViewArticles = () => {
     }
   };
 
+  // Handle click on the anchor tag in the description
+  const handleDescriptionClick = (event) => {
+    const target = event.target;
+    if (target.tagName === "A") {
+      event.preventDefault(); // Prevent default anchor click behavior
+      const articleId = target.getAttribute("href").split("article ")[1];
+      if (articleId) {
+        // Open the single article page in a new tab
+        window.open(`/singlearticle?id=${articleId}`, "_blank"); // Open in a new tab
+      }
+    }
+  };
+
   return (
     <>
       <Header />
@@ -184,6 +197,7 @@ const ViewArticles = () => {
                     <td>{article.title}</td>
                     <td className="d-none d-md-table-cell">
                       <div
+                        onClick={handleDescriptionClick} // Add click handler here
                         dangerouslySetInnerHTML={{
                           __html: article.description,
                         }}

@@ -139,6 +139,19 @@ const Home = () => {
     setShow(true);
   };
 
+  // Handle click on the anchor tag in the description
+  const handleDescriptionClick = (event) => {
+    const target = event.target;
+    if (target.tagName === "A") {
+      event.preventDefault(); // Prevent default anchor click behavior
+      const newsId = target.getAttribute("href").split("article ")[1];
+      if (newsId) {
+        // Open the single article page in a new tab
+        window.open(`/singlenews?id=${newsId}`, "_blank"); // Open in a new tab
+      }
+    }
+  };
+
   const handleEditNews = async () => {
     try {
       await axios.post(APIURL, {
@@ -228,9 +241,15 @@ const Home = () => {
                 {newsData.map((news) => (
                   <tr key={news.id}>
                     <td>{news.title}</td>
-                    <td
+                    {/* <td
                       className="d-none d-md-table-cell"
                       dangerouslySetInnerHTML={{ __html: news.description }}
+                    /> */}
+                    <td
+                      onClick={handleDescriptionClick} // Add click handler here
+                      dangerouslySetInnerHTML={{
+                        __html: news.description,
+                      }}
                     />
                     <td>
                       <b>{news.priority}</b>
